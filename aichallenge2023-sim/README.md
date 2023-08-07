@@ -30,8 +30,8 @@ stop.sh
 
 ```
 cd ${HOME}/aichallenge2023-sim
-wget https://raw.githubusercontent.com/seigot/tools/master/aichallenge_2023/autorun.sh
-wget https://raw.githubusercontent.com/seigot/tools/master/aichallenge_2023/stop.sh
+wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/autorun.sh
+wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/stop.sh
 bash autorun.sh #二回目以降はここだけ実行
 
 bash autorun.sh -l 3 -s 200    # LOOP(-l)回数指定したい場合や、完了待ちsleep時間（-s）指定したい場合はoption指定すればOK
