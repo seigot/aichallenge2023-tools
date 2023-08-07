@@ -54,9 +54,6 @@ function run_awsim(){
 
 function run_autoware(){
 
-    # 起動後何秒くらい待つか(sec)
-    WAIT_SEC=$1
-
     # MAIN Process
     # Autowareを実行する
     # run AUTOWARE
@@ -81,12 +78,19 @@ function run_autoware(){
     echo "CMD: ${AUTOWARE_EXEC_COMMAND}"    
     gnome-terminal -- bash -c "${AUTOWARE_EXEC_COMMAND}" &
     sleep 15
+}
+
+function get_result(){
+
+    # 起動後何秒くらい待つか(sec)
+    WAIT_SEC=$1
 
     # wait until game finish
     sleep ${WAIT_SEC}
 
     # POST Process:
     # ここで何か結果を記録したい
+    AUTOWARE_ROCKER_NAME="autoware_rocker_container"
     RESULT_JSON="result.json" #"${HOME}/result.json"
     RESULT_TMP_JSON="result_tmp.json" #"${HOME}/result_tmp.json"
     GET_RESULT_LOOP_TIMES=10
@@ -124,6 +128,7 @@ function run_autoware(){
 
     # finish..
     bash stop.sh
+
 }
 
 function preparation(){
@@ -134,8 +139,14 @@ function preparation(){
 function do_game(){
     SLEEP_SEC=$1
     preparation
+    #run_awsim
+    #run_autoware
+    ## 通常AWSIM-->AUTOWAREの起動手順だが、
+    ## AUTOWARE-->(2min sleep)-->AWSIMとしないと回避できない(centerpointtopic起きてこない)ので暫定対応
+    run_autoware
+    sleep 120
     run_awsim
-    run_autoware ${SLEEP_SEC}
+    get_result ${SLEEP_SEC}
 }
 
 # 引数に応じて処理を分岐
