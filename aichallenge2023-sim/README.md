@@ -59,3 +59,13 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 ```
 
 `distanceScore`が伸びるようにパラメータ調整や各種工夫に励めばOK
+
+
+## サーバ側で実行する編
+
+```
+$ cat ~/.netrc
+machine github.com
+login seigot
+password ${YOUR_PASSWORD}
+```
