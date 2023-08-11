@@ -1,6 +1,8 @@
 
 以前からやりたいと言っていたパラメータ自動評価環境メモ
 
+## 手元で手動実行する編（基本はこちら）
+
 ```
 step1. 誰かのaichallenge2023リポジトリをgit cloneする
 step2. AWSIM/autowareをビルドして実行×10回くらい
@@ -61,7 +63,7 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 `distanceScore`が伸びるようにパラメータ調整や各種工夫に励めばOK
 
 
-## サーバ側で実行する編
+## サーバ側で自動実行する編（応用編）
 
 ```
 $ cat ~/.netrc
