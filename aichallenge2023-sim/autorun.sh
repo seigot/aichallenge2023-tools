@@ -132,6 +132,10 @@ function get_result(){
 }
 
 function preparation(){
+
+    # stop current process
+    bash stop.sh
+
     # リポジトリ設定など必要であれば実施（仮）
     echo "do_nothing"
 }
