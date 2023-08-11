@@ -1,13 +1,15 @@
 
 以前からやりたいと言っていたパラメータ自動評価環境メモ
 
+## 手元で手動実行する編（基本はこちら）
+
 ```
-step1. 誰かのaichallenge2023リポジトリをgit cloneする
+step1. 事前にclone/環境構築を済ませておいた~/aichallenge2023リポジトリに移動する
 step2. AWSIM/autowareをビルドして実行×10回くらい
-step3. step2実行時の評価結果をどこかに記録する
+step3. step2実行時の評価結果を~/aichallenge2023/result.txtに記録する
 ```
 
-のうち、step2/step3 の部分を作成してみたもの（実体はシェルスクリプト）   
+のうち、step1/step2/step3 の部分を作成してみたもの（実体はシェルスクリプト）   
 よかったら実行してみて下さいー、これで数十回の連続実行が楽になるはずです。
 
 リポジトリURL  
@@ -61,7 +63,7 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 `distanceScore`が伸びるようにパラメータ調整や各種工夫に励めばOK
 
 
-## サーバ側で実行する編
+## サーバ側で自動実行する編（応用編）
 
 ```
 $ cat ~/.netrc
