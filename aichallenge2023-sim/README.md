@@ -72,7 +72,6 @@ login seigot
 password ${YOUR_PASSWORD}
 ```
 
-```
 コマンド
 
 ```
