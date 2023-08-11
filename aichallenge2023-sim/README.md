@@ -1,7 +1,7 @@
 
 以前からやりたいと言っていたパラメータ自動評価環境メモ
 
-## 手元で手動実行する編（基本はこちら）
+## 基本:手元で手動実行する編（基本はこちらのみでOK）
 
 ```
 step1. 事前にclone/環境構築を済ませておいた~/aichallenge2023リポジトリに移動する
@@ -63,7 +63,7 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 `distanceScore`が伸びるようにパラメータ調整や各種工夫に励めばOK
 
 
-## サーバ側で自動実行する編（応用編）
+## option: サーバ側で自動実行する編（こちらはサーバ側で動作させたい場合のみ使用）
 
 ```
 $ cat ~/.netrc
@@ -71,3 +71,14 @@ machine github.com
 login seigot
 password ${YOUR_PASSWORD}
 ```
+
+```
+コマンド
+
+```
+cd ${HOME}/aichallenge2023-sim
+wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/autorun.sh
+wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/stop.sh
+bash autorun_server.sh -l 100      #二回目以降はここだけ実行してもOK
+```
+
