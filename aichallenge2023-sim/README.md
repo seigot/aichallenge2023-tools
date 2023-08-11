@@ -3,6 +3,8 @@
 
 ## 基本:手元で手動実行する編（基本はこちらのみでOK）
 
+##### 概要
+
 ```
 step1. 事前にclone/環境構築を済ませておいた~/aichallenge2023リポジトリに移動する
 step2. AWSIM/autowareをビルドして実行×10回くらい
@@ -65,11 +67,15 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 
 ## option: サーバ側で自動実行する編（こちらはサーバ側で動作させたい場合のみ使用）
 
+概要
+
+- `github`の該当リポジトリに自動スクリプトからpushできるように設定しておく
+
 ```
 $ cat ~/.netrc
 machine github.com
 login seigot
-password ${YOUR_PASSWORD}
+password ${YOUR_PASSWORD/YOUR_TOKEN}
 ```
 
 コマンド
@@ -81,3 +87,6 @@ wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge
 bash autorun_server.sh -l 100      #二回目以降はここだけ実行してもOK
 ```
 
+
+
+https://github.com/seigot/aichallenge-result  
