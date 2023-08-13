@@ -176,16 +176,17 @@ function update_patch(){
 
     # target patch名の取得
     # 取得できない場合は-1を返す
+    AICHALLENGE2023_TOOLS_REPOSITORY_PATH="${HOME}/aichallenge-tools"
     TARGET_PATCH_LIST="target_patch_list.txt"
     TARGET_PATCH=""
-    pushd ${AICHALLENGE2023_DEV_REPOSITORY}/patch
-    for PATCH_NAME in `ls -tr *.patch`
+    pushd ${AICHALLENGE2023_TOOLS_REPOSITORY_PATH}"/aichallenge2023-sim/patch"
+    for PATCH_NAME in `ls *.patch`
     do
 	echo "TARGET_PATCH_CANDIDATE: ${PATCH_NAME}"
 	grep -x "${PATCH_NAME}" ${TARGET_PATCH_LIST}
 	RET=$?
 	if [ ${RET} == 0 ]; then
-            echo "PATCH: ${PATCH} already evaluated..."
+            echo "PATCH: ${PATCH_NAME} already evaluated..."
             continue
 	fi
 	TARGET_PATCH="${PATCH_NAME}"
@@ -195,7 +196,7 @@ function update_patch(){
 	echo "no target patch.."
 	return -1
     fi
-    echo "TARGET_PATCH: ${TARGET_PATCH}"
+    echo "TARGET_PATCH: ${TARGET_PATCH} evaluation start"
     echo ${TARGET_PATCH} >> ${TARGET_PATCH_LIST}
     TARGET_PATCH_NAME="${TARGET_PATCH}"
     popd
@@ -206,8 +207,8 @@ function update_patch(){
     git diff > tmp.patch
     patch -p1 -R < tmp.patch
     ## target patch反映
-    patch -p1 < ${AICHALLENGE2023_DEV_REPOSITORY}/patch/${TARGET_PATCH_NAME}
-
+    patch -p1 < ${AICHALLENGE2023_TOOLS_REPOSITORY_PATH}"/aichallenge2023-sim/patch/${TARGET_PATCH_NAME}"
+    popd
 }
 
 # 引数に応じて処理を分岐
