@@ -7,7 +7,7 @@
 ```
 ex)
 cd ~/aichallenge2023-sim
-git diff > 20230815.patch  # ここの*.patch形式のファイルを本ディレクトリに置き、1h程待つ。
+git diff > 20230815.patch  # ここの*.patch形式のファイルを本ディレクトリに置き、1h程待つ。(左上の+add/upload filesを使えばOK)
 ```
 
 結果格納URL  
