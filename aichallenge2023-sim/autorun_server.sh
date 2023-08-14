@@ -20,6 +20,7 @@
 LOOP_TIMES=10
 SLEEP_SEC=180
 TARGET_PATCH_NAME="default"
+CURRENT_DIRECTORY_PATH=`pwd`
 
 # check
 AICHALLENGE2023_DEV_REPOSITORY="${HOME}/aichallenge2023-sim"
@@ -143,7 +144,8 @@ function push_result(){
     pushd ${RESULT_REPOSITORY_PATH}/aichallenge2023-sim
     git pull
     PUSH_RESULT_NAME="result_${TARGET_PATCH_NAME%%.*}.tsv"
-    cp ${AICHALLENGE2023_DEV_REPOSITORY}/result.tsv ${PUSH_RESULT_NAME}
+    cat ${CURRENT_DIRECTORY_PATH}/result.tsv | head -1 > ${PUSH_RESULT_NAME}
+    cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} >> ${PUSH_RESULT_NAME}
     git add ${PUSH_RESULT_NAME}
     git commit -m "update result"
     git push
@@ -194,7 +196,7 @@ function update_patch(){
     done
     if [ "${TARGET_PATCH}" == "" ]; then
 	echo "no target patch.."
-	return -1
+	return 1
     fi
     echo "TARGET_PATCH: ${TARGET_PATCH} evaluation start"
     echo ${TARGET_PATCH} >> ${TARGET_PATCH_LIST}
@@ -209,6 +211,7 @@ function update_patch(){
     ## target patch反映
     patch -p1 < ${AICHALLENGE2023_TOOLS_REPOSITORY_PATH}"/aichallenge2023-sim/patch/${TARGET_PATCH_NAME}"
     popd
+    return 0
 }
 
 # 引数に応じて処理を分岐
@@ -234,6 +237,11 @@ done
 echo "LOOP_TIMES: ${LOOP_TIMES}"
 echo "SLEEP_SEC: ${SLEEP_SEC}"
 update_patch
+RET=$?
+if [ "${RET}" == "1" ]; then
+    echo "NO EVALUATION PATCH, exit..."
+    exit 0
+fi 
 for ((i=0; i<${LOOP_TIMES}; i++));
 do
     echo "----- LOOP: ${i} -----"
