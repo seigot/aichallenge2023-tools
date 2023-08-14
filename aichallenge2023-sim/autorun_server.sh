@@ -143,7 +143,7 @@ function push_result(){
     fi
     pushd ${RESULT_REPOSITORY_PATH}/aichallenge2023-sim
     git pull
-    PUSH_RESULT_NAME="result_${TARGET_PATCH_NAME%%.*}.tsv"
+    PUSH_RESULT_NAME="result_${TARGET_PATCH_NAME}.tsv"
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | head -1 > ${PUSH_RESULT_NAME}
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} >> ${PUSH_RESULT_NAME}
     git add ${PUSH_RESULT_NAME}
