@@ -17,7 +17,7 @@
 #   - 地図データ(pcd,osm)のコピーが完了していること
 #   - autowareのサンプルコードの手動実行が確認できていること
 
-LOOP_TIMES=10
+LOOP_TIMES=7 #10
 SLEEP_SEC=180
 TARGET_PATCH_NAME="default"
 CURRENT_DIRECTORY_PATH=`pwd`
@@ -143,7 +143,7 @@ function push_result(){
     fi
     pushd ${RESULT_REPOSITORY_PATH}/aichallenge2023-sim
     git pull
-    BEST_TIME=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | cut -d"  " -f2 | sort -n | tail -3 | head -1` # 外れ値を除くために3番目の値を取得(要調整)
+    BEST_TIME=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | cut -f2 | sort -n | tail -2 | head -1` # 外れ値を除くために2番目の値を取得(要調整)
     PUSH_RESULT_NAME="result_${TARGET_PATCH_NAME}_${BEST_TIME}.tsv"
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | head -1 > ${PUSH_RESULT_NAME}
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} >> ${PUSH_RESULT_NAME}
