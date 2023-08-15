@@ -72,6 +72,7 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 - `github`の該当リポジトリに自動スクリプトからpushできるように設定しておく
 
 ```
+# (例) seigotさんのリポジトリに更新する場合. YOUR_TOKEN はgithubのsettingメニューから取得しておく.
 $ cat ~/.netrc
 machine github.com
 login seigot
@@ -81,12 +82,13 @@ password ${YOUR_PASSWORD/YOUR_TOKEN}
 コマンド
 
 ```
-cd ${HOME}/aichallenge2023-sim
-wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/autorun.sh
-wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/stop.sh
-bash autorun_server.sh -l 100      #二回目以降はここだけ実行してもOK
+cd ${HOME}
+git clone https://github.com/seigot/aichallenge-tools
+cd aichallenge-tools/aichallenge2023-sim
+bash do.sh  # 最新のパッチを取得してautorun_server.sh を何度も実行するスクリプト
 ```
 
-
-
+最新のパッチは以下から取得  
+https://github.com/seigot/aichallenge-tools/tree/main/aichallenge2023-sim/patch  
+結果は以下に格納  
 https://github.com/seigot/aichallenge-result  
