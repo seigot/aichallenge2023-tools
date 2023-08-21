@@ -1,3 +1,25 @@
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/control/trajectory_follower/lateral/mpc.param.yaml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/control/trajectory_follower/lateral/mpc.param.yaml
+index 400bc92..ef3a223 100644
+--- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/control/trajectory_follower/lateral/mpc.param.yaml
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/control/trajectory_follower/lateral/mpc.param.yaml
+@@ -24,7 +24,7 @@
+     mpc_weight_heading_error_squared_vel: 0.3    # heading error * velocity weight in matrix Q
+     mpc_weight_steering_input: 1.0               # steering error weight in matrix R
+     mpc_weight_steering_input_squared_vel: 0.25  # steering error * velocity weight in matrix R
+-    mpc_weight_lat_jerk: 0.0                     # lateral jerk weight in matrix R
++    mpc_weight_lat_jerk: 3.0                     # lateral jerk weight in matrix R
+     mpc_weight_steer_rate: 0.0                   # steering rate weight in matrix R
+     mpc_weight_steer_acc: 0.000001               # steering angular acceleration weight in matrix R
+     mpc_low_curvature_weight_lat_error: 0.1                    # lateral error weight in matrix Q in low curvature point
+@@ -32,7 +32,7 @@
+     mpc_low_curvature_weight_heading_error_squared_vel: 0.3    # heading error * velocity weight in matrix Q in low curvature point
+     mpc_low_curvature_weight_steering_input: 1.0               # steering error weight in matrix R in low curvature point
+     mpc_low_curvature_weight_steering_input_squared_vel: 0.25  # steering error * velocity weight in matrix R in low curvature point
+-    mpc_low_curvature_weight_lat_jerk: 0.0                     # lateral jerk weight in matrix R in low curvature point
++    mpc_low_curvature_weight_lat_jerk: 3.0                     # lateral jerk weight in matrix R in low curvature point
+     mpc_low_curvature_weight_steer_rate: 0.0                   # steering rate weight in matrix R in low curvature point
+     mpc_low_curvature_weight_steer_acc: 0.000001               # steering angular acceleration weight in matrix R in low curvature point
+     mpc_low_curvature_thresh_curvature: 0.0                    # threshold of curvature to use "low_curvature" parameter (recommend: 0.01~0.03)
 diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/common/common.param.yaml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/common/common.param.yaml
 index 6bb130e..789a813 100644
 --- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/common/common.param.yaml
@@ -80,7 +102,7 @@ index e600334..5234778 100644
      # path extraction parameters
      extract_ahead_dist: 200.0         # forward trajectory distance used for planning [m]
 diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/avoidance/avoidance.param.yaml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/avoidance/avoidance.param.yaml
-index c14f59f..7c24d20 100644
+index c14f59f..56ced2b 100644
 --- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/avoidance/avoidance.param.yaml
 +++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/avoidance/avoidance.param.yaml
 @@ -2,26 +2,26 @@
@@ -89,11 +111,11 @@ index c14f59f..7c24d20 100644
      avoidance:
 -      resample_interval_for_planning: 0.3               # [m]
 -      resample_interval_for_output: 4.0                 # [m]
+-      detection_area_right_expand_dist: 0.0             # [m]
 +      resample_interval_for_planning: 0.05              # [m]
 +      resample_interval_for_output: 0.1                 # [m]
-       detection_area_right_expand_dist: 0.0             # [m]
--      detection_area_left_expand_dist: 1.0              # [m]
-+      detection_area_left_expand_dist: 0.0              # [m]
++      detection_area_right_expand_dist: 2.0             # [m]
+       detection_area_left_expand_dist: 1.0              # [m]
        drivable_area_right_bound_offset: 0.0             # [m]
        drivable_area_left_bound_offset: 0.0              # [m]
 -      object_envelope_buffer: 0.3                       # [m]
@@ -217,7 +239,7 @@ index 46b176b..68b8345 100644
      visualize_maximum_drivable_area: true
  
 diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/drivable_area_expansion.param.yaml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/drivable_area_expansion.param.yaml
-index 902a93c..6dab12c 100644
+index 902a93c..542fea8 100644
 --- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/drivable_area_expansion.param.yaml
 +++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/drivable_area_expansion.param.yaml
 @@ -3,27 +3,27 @@
@@ -236,8 +258,8 @@ index 902a93c..6dab12c 100644
      lane_following:
 -      drivable_area_right_bound_offset: 0.0
 -      drivable_area_left_bound_offset: 0.0
-+      drivable_area_right_bound_offset: -0.8
-+      drivable_area_left_bound_offset: 0.8
++      drivable_area_right_bound_offset: -0.6
++      drivable_area_left_bound_offset: 0.6
        drivable_area_types_to_skip: [road_border]
      pull_out:
 -      drivable_area_right_bound_offset: 0.0
@@ -363,6 +385,18 @@ index a68a760..296026a 100644
          vehicle_lateral_margin: 0.0          # margin of vehicle footprint [m]
          pedestrian_lateral_margin: 0.0       # margin of pedestrian footprint [m]
          unknown_lateral_margin: 0.0          # margin of unknown footprint [m]
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/launch/components/tier4_control_component.launch.xml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/launch/components/tier4_control_component.launch.xml
+index bae5865..4f4cf40 100644
+--- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/launch/components/tier4_control_component.launch.xml
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/launch/components/tier4_control_component.launch.xml
+@@ -2,6 +2,7 @@
+ <launch>
+   <!-- optional parameters are written here -->
+   <arg name="lateral_controller_mode" default="mpc"/>
++  <!-- <arg name="lateral_controller_mode" default="pure_pursuit"/> -->
+   <arg name="longitudinal_controller_mode" default="pid"/>
+   <arg name="use_individual_control_param" default="false"/>
+ 
 diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/rviz/autoware.rviz b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/rviz/autoware.rviz
 index cac9bb8..d125a73 100644
 --- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/rviz/autoware.rviz
