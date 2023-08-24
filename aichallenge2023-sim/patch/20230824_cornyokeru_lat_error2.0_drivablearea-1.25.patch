@@ -341,7 +341,7 @@ index 46b176b..e580cee 100644
        priority: 3
        max_module_size: 1
 diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/drivable_area_expansion.param.yaml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/drivable_area_expansion.param.yaml
-index 902a93c..cc26831 100644
+index 902a93c..02879cc 100644
 --- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/drivable_area_expansion.param.yaml
 +++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/drivable_area_expansion.param.yaml
 @@ -2,16 +2,16 @@
@@ -360,8 +360,8 @@ index 902a93c..cc26831 100644
      lane_following:
 -      drivable_area_right_bound_offset: 0.0
 -      drivable_area_left_bound_offset: 0.0
-+      drivable_area_right_bound_offset: -1.25 #0.0
-+      drivable_area_left_bound_offset: -1.25 #0.0
++      drivable_area_right_bound_offset: -0.125 #0.0
++      drivable_area_left_bound_offset: -0.125 #0.0
        drivable_area_types_to_skip: [road_border]
      pull_out:
        drivable_area_right_bound_offset: 0.0
@@ -435,6 +435,29 @@ index daa8e02..ad4827d 100644
  
        # collision free constraint for optimization
        collision_free_constraints:
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/motion_planning/obstacle_stop_planner/obstacle_stop_planner.param.yaml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/motion_planning/obstacle_stop_planner/obstacle_stop_planner.param.yaml
+index a68a760..edafabe 100644
+--- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/motion_planning/obstacle_stop_planner/obstacle_stop_planner.param.yaml
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/config/planning/scenario_planning/lane_driving/motion_planning/obstacle_stop_planner/obstacle_stop_planner.param.yaml
+@@ -15,14 +15,14 @@
+     stop_planner:
+       # params for stop position
+       stop_position:
+-        max_longitudinal_margin: 5.0             # stop margin distance from obstacle on the path [m]
++        max_longitudinal_margin: 5.5 #5.0             # stop margin distance from obstacle on the path [m]
+         max_longitudinal_margin_behind_goal: 3.0 # stop margin distance from obstacle behind goal on the path [m]
+-        min_longitudinal_margin: 5.0             # stop margin distance when any other stop point is inserted in stop margin [m]
+-        hold_stop_margin_distance: 0.0           # the ego keeps stopping if the ego is in this margin [m]
++        min_longitudinal_margin: 5.5 #5.0             # stop margin distance when any other stop point is inserted in stop margin [m]
++        hold_stop_margin_distance: 5.5 #0.0           # the ego keeps stopping if the ego is in this margin [m]
+ 
+       # params for detection area
+       detection_area:
+-        lateral_margin: 0.0                  # margin [m]
++        lateral_margin: 0.2 #0.0                  # margin [m]
+         vehicle_lateral_margin: 0.0          # margin of vehicle footprint [m]
+         pedestrian_lateral_margin: 0.0       # margin of pedestrian footprint [m]
+         unknown_lateral_margin: 0.0          # margin of unknown footprint [m]
 diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/rviz/autoware.rviz b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/rviz/autoware.rviz
 index cac9bb8..e31a25f 100644
 --- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_launch/autoware_launch/rviz/autoware.rviz
