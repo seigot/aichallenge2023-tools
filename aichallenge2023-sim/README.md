@@ -64,6 +64,14 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 
 `distanceScore`が伸びるようにパラメータ調整や各種工夫に励めばOK
 
+更新方法
+```
+cd ~/aichallenge2023-sim
+cp autorun.sh autorun.sh.20230823
+wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/autorun.sh -O autorun.sh
+cp stop.sh stop.20230823
+wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/stop.sh -O stop.sh
+```
 
 ## option: サーバ側で自動実行する編（こちらはサーバ側で動作させたい場合のみ使用）
 
