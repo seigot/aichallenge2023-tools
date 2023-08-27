@@ -57,7 +57,7 @@ function run_awsim(){
        if [ ${PROCESS_CNT} -ge 1 ]; then
            break
        fi
-       echo "no process ${AUTOWARE_ROCKER_NAME} AWSIM, retry.."
+       echo "no process ${AWSIM_ROCKER_NAME} AWSIM, retry.."
     done
     return
 }
@@ -86,7 +86,16 @@ function run_autoware(){
     sleep 5
     echo "-- run AUTOWARE run.sh... -->"
     echo "CMD: ${AUTOWARE_EXEC_COMMAND}"    
-    gnome-terminal -- bash -c "${AUTOWARE_EXEC_COMMAND}" &
+    for ((jj=0; jj<20; jj++));
+    do
+       gnome-terminal -- bash -c "${AUTOWARE_EXEC_COMMAND}" &
+       sleep 15
+       PROCESS_CNT=`ps -aux | grep "${AUTOWARE_ROCKER_NAME}" | grep "bash run.sh" | wc -l`
+       if [ ${PROCESS_CNT} -ge 1 ]; then
+           break
+       fi
+       echo "no process ${AUTOWARE_ROCKER_NAME} AWSIM, retry.."
+    done
     sleep 15
 }
 
