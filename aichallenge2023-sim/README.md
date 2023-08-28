@@ -68,9 +68,9 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 ```
 cd ~/aichallenge2023-sim
 cp autorun.sh autorun.sh.20230823
-wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/autorun.sh -O autorun.sh
+curl https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/autorun.sh -O autorun.sh
 cp stop.sh stop.20230823
-wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/stop.sh -O stop.sh
+curl https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/stop.sh -O stop.sh
 ```
 
 ## option: サーバ側で自動実行する編（こちらはサーバ側で動作させたい場合のみ使用）
@@ -106,3 +106,13 @@ bash do.sh  # 最新のパッチを取得してautorun_server.sh を何度も実
 https://github.com/seigot/aichallenge-tools/tree/main/aichallenge2023-sim/patch  
 結果は以下に格納  
 https://github.com/seigot/aichallenge-result  
+
+```
+# パッチの当て方
+cd ~/aichallenge2023-sim
+git pull
+git diff > tmp.patch               ＃現在の差分を保存
+patch -p1 -R < tmp.patch     # 差分を打ち消し
+curl  https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim/patch/20230824_001_stop_drivable_area_false_left_bound_offset_-0.17_right_-0.67.patch
+patch -p1 < 20230824_001_stop_drivable_area_false_left_boundoffset-0.17right-0.67.patch  # 例えばこのパッチを当てる
+```
