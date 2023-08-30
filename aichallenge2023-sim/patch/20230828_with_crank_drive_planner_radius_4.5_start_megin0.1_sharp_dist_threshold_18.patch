@@ -1143,7 +1143,7 @@ index 0000000..6f4eb9f
 \ No newline at end of file
 diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/crank_driving_planner/crank_driving_planner/config/curve_cfg.py b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/crank_driving_planner/crank_driving_planner/config/curve_cfg.py
 new file mode 100644
-index 0000000..02f1899
+index 0000000..6e1e7cc
 --- /dev/null
 +++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/crank_driving_planner/crank_driving_planner/config/curve_cfg.py
 @@ -0,0 +1,16 @@
@@ -1159,7 +1159,7 @@ index 0000000..02f1899
 +
 +        self.exec_predict = [False, False, False, True]
 +
-+        self.sharp_dist_threshold = 20 #[m]
++        self.sharp_dist_threshold = 18 #[m]
 +        self.animation_flag = False #True #False
 +
 +        self.arrival_threthold = 1.5 #[m]
