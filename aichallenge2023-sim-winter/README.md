@@ -55,11 +55,11 @@ Time	rawDistanceSocre	distanceScore	task3Duration	isOutsideLane	isTimeout	hasCol
 
 更新方法
 ```
-cd ~/aichallenge2023-sim
+cd ~/aichallenge2023-sim-racing
 cp autorun.sh autorun.sh.20230823
-curl https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim-winter/autorun.sh -O autorun.sh
 cp stop.sh stop.20230823
-curl https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim-winter/stop.sh -O stop.sh
+wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim-winter/autorun.sh
+wget https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichallenge2023-sim-winter/stop.sh
 ```
 
 ## option: サーバ側で自動実行する編（こちらはサーバ側で動作させたい場合のみ使用）
