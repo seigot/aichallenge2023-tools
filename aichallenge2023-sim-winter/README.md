@@ -33,7 +33,7 @@ bash autorun.sh           # LOOP回数のdefaultは10回
 bash autorun.sh -l 300    # LOOP回数指定したい場合は、option指定すればOK(例えば300回ループしたい場合は "-l 300" のように指定する)
 ```
 
-結果(`result.json`)は以下のようになる
+結果(`result.txt`)は以下のようになる
 
 ```
 ~/aichallenge2023-sim$ cat result.tsv
@@ -42,7 +42,7 @@ Player rawLapTime distanceScore lapTime isLapCompleted isTimeout trackLimitsViol
 ...
 ```
 
-`distanceScore`が伸びるようにパラメータ調整や各種工夫に励めばOK
+`lapTime`が小さくなるようにパラメータ調整やplanner追加など各種工夫に励めばOK
 
 更新方法
 ```
