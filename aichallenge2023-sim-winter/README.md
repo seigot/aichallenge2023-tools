@@ -8,7 +8,7 @@
 ```
 step1. 事前にclone/環境構築を済ませておいた~/aichallenge2023-racingリポジトリに移動する
 step2. AWSIM/autowareをビルドして実行×10回くらい
-step3. step2実行時の評価結果を~/aichallenge2023/result.txtに記録する
+step3. step2実行時の評価結果を~/aichallenge2023-racing/result.txtに記録する
 ```
 
 のうち、step1/step2/step3 の部分を作成してみたもの（実体はシェルスクリプト）   
