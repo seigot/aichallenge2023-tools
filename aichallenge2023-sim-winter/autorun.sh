@@ -89,8 +89,7 @@ function preparation(){
 
     # 古いresult.jsonは削除する
     RESULT_JSON_TARGET_PATH="${HOME}/aichallenge2023-racing/docker/evaluation/output/result.json"
-    ls ${RESULT_JSON_TARGET_PATH}
-    if [ $? == 0 ]; then
+    if [ -e ${RESULT_JSON_TARGET_PATH} ]; then
 	rm ${RESULT_JSON_TARGET_PATH}
     fi
 }
