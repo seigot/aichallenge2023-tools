@@ -81,7 +81,7 @@ sudo apt install -y jq  # result.jsonからの値取得のために必要
 ```
 cd ${HOME}
 git clone https://github.com/seigot/aichallenge-tools
-cd aichallenge-tools/aichallenge2023-sim
+cd aichallenge-tools/aichallenge2023-sim-winter
 bash do.sh  # 最新のパッチを取得してautorun_server.sh を何度も実行するスクリプト
 ```
 
