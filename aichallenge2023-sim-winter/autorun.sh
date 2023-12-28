@@ -66,7 +66,7 @@ function get_result(){
 	sleep 10
     done
 
-    if [ ! -e ${RESULT_JSON} ]; then
+    if [ ! -e ${RESULT_TXT} ]; then
 	echo -e "Player\trawLapTime\tdistanceScore\tlapTime\tisLapCompleted\tisTimeout\ttrackLimitsViolation\tcollisionViolation" > ${RESULT_TXT}
     fi
     TODAY=`date +"%Y%m%d%I%M%S"`
