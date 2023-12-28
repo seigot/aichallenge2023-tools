@@ -39,6 +39,9 @@ bash autorun.sh -l 300    # LOOP回数指定したい場合は、option指定す
 ~/aichallenge2023-sim$ cat result.tsv
 Player rawLapTime distanceScore lapTime isLapCompleted isTimeout trackLimitsViolation collisionViolation
 20231229123146_automotiveaichallenge_main	248.398743	100	353.398743	true	false	[  3,  6,  4,  1,  0]	[  2,  0,  0,  0]
+20231229124031_automotiveaichallenge_main	248.6506	100	363.6506	true	false	[  4,  7,  4,  1,  0]	[  2,  0,  0,  0]
+20231229124856_automotiveaichallenge_main	231.108246	47.77975	381.108246	false	false	[  6,  10,  5,  1,  0]	[  2,  0,  0,  0]
+20231229125602_automotiveaichallenge_main	128.798477	47.51332	273.798462	false	false	[  5,  8,  5,  2,  0]	[  2,  0,  0,  0]
 ...
 ```
 
