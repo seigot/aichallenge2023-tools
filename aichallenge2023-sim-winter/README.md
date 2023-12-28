@@ -92,9 +92,9 @@ bash do.sh  # 最新のパッチを取得してautorun_server.sh を何度も実
 ```
 
 最新のパッチは以下から取得  
-https://github.com/seigot/aichallenge-tools/tree/main/aichallenge2023-sim/patch  
+https://github.com/seigot/aichallenge-tools/tree/main/aichallenge2023-sim-winter/patch  
 結果は以下に格納  
-https://github.com/seigot/aichallenge-result  
+https://github.com/seigot/aichallenge-result/aichallenge2023-sim-winter  
 
 ```
 # パッチの当て方
@@ -106,9 +106,9 @@ curl  https://raw.githubusercontent.com/seigot/aichallenge-tools/main/aichalleng
 patch -p1 < 20230824_001_stop_drivable_area_false_left_boundoffset-0.17right-0.67.patch  # 例えばこのパッチを当てる
 ```
 
-#### [crank_drive_planner](https://github.com/bushio/crank_driving_planner)を使う場合
+#### planner(ex.[crank_drive_planner](https://github.com/bushio/crank_driving_planner))を追加する場合
 
-`crank_drive_planner`のパッチの当て方
+ex.`crank_drive_planner`のパッチの当て方
 
 ```
 cd ~/aichallenge2023-sim
