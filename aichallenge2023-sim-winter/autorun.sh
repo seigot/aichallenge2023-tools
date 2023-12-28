@@ -1,29 +1,16 @@
 #!/bin/bash -x
 
 #
-# サンプルコード(run.sh)を自動実行するためのスクリプト
-# README記載のサンプルコード実行手順をスクリプトで一撃でできるようにしてるだけ
-#
-# 以下を実行すれば動く想定
-#   cd ${HOME}/aichallenge2023-sim
-#   wget https://raw.githubusercontent.com/seigot/tools/master/aichallenge_2023/autorun.sh
-#   wget https://raw.githubusercontent.com/seigot/tools/master/aichallenge_2023/stop.sh
-#   bash autorun.sh  # 2回目以降はここだけ実行
-#
-# 以下を前提としている
-# - ${HOME}/aichallenge2023-simが存在していること
-# - README.mdに沿って事前準備完了していること
-#   - 各種インストールが完了していること
-#   - 地図データ(pcd,osm)のコピーが完了していること
-#   - autowareのサンプルコードの手動実行が確認できていること
+# 自動実行用のスクリプト
+# README記載のOnline提出前のコード実行手順をスクリプトで一撃でできるようにしてる
 
 LOOP_TIMES=10
 SLEEP_SEC=180
 
 # check
-AICHALLENGE2023_DEV_REPOSITORY="${HOME}/aichallenge2023-sim"
+AICHALLENGE2023_DEV_REPOSITORY="${HOME}/aichallenge2023-racing"
 if [ ! -d ${AICHALLENGE2023_DEV_REPOSITORY} ]; then
-   "please clone ~/aichallenge2023-sim on home directory (${AICHALLENGE2023_DEV_REPOSITORY})!!"
+   "please clone ~/aichallenge2023-racing on home directory (${AICHALLENGE2023_DEV_REPOSITORY})!!"
    return
 fi
 
@@ -55,16 +42,15 @@ function get_result(){
     # POST Process:
     # ここで何か結果を記録したい
     AUTOWARE_ROCKER_NAME="autoware_rocker_container"
-    RESULT_JSON="result.json"
+    RESULT_TXT="result.txt"
     RESULT_JSON_TARGET_PATH="${HOME}/aichallenge2023-racing/docker/evaluation/output/result.json"
     TODAY=`date +"%Y%m%d%I%M%S"`
     RESULT_TMP_JSON="result_${TODAY}.json" #"${HOME}/result_tmp.json"
-    GET_RESULT_LOOP_TIMES=120 # 20min
+    GET_RESULT_LOOP_TIMES=180 # 30min
     VAL1="-1" VAL2="-1" VAL3="-1" VAL4="false" VAL5="false" VAL6="false" VAL7="false"
     for ((jj=0; jj<${GET_RESULT_LOOP_TIMES}; jj++));
     do
-	ls ${RESULT_JSON_TARGET_PATH}
-	if [ $? == 0 ]; then
+	if [ -e ${RESULT_JSON_TARGET_PATH} ]; then
 	    mv ${RESULT_JSON_TARGET_PATH} ${RESULT_TMP_JSON}
 	    # result
 	    VAL1=`jq .rawLapTime ${RESULT_TMP_JSON}`
@@ -81,12 +67,12 @@ function get_result(){
     done
 
     if [ ! -e ${RESULT_JSON} ]; then
-	echo -e "Player\rawLapTime\tdistanceScore\tlapTime\tisLapCompleted\tisTimeout\ttrackLimitsViolation\tcollisionViolation" > ${RESULT_JSON}
+	echo -e "Player\trawLapTime\tdistanceScore\tlapTime\tisLapCompleted\tisTimeout\ttrackLimitsViolation\tcollisionViolation" > ${RESULT_TXT}
     fi
     TODAY=`date +"%Y%m%d%I%M%S"`
     OWNER=`git remote -v | grep fetch | cut -d"/" -f4`
     BRANCH=`git branch | cut -d" " -f 2`	    
-    echo -e "${TODAY}_${OWNER}_${BRANCH}\t${VAL1}\t${VAL2}\t${VAL3}\t${VAL4}\t${VAL5}\t${VAL6}\t${VAL7}" >> ${RESULT_JSON}
+    echo -e "${TODAY}_${OWNER}_${BRANCH}\t${VAL1}\t${VAL2}\t${VAL3}\t${VAL4}\t${VAL5}\t${VAL6}\t${VAL7}" >> ${RESULT_TXT}
     echo -e "${TODAY}_${OWNER}_${BRANCH}\t${VAL1}\t${VAL2}\t${VAL3}\t${VAL4}\t${VAL5}\t${VAL6}\t${VAL7}"
 
     # finish..
