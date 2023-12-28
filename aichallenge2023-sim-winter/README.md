@@ -88,7 +88,7 @@ bash do.sh  # 最新のパッチを取得してautorun_server.sh を何度も実
 最新のパッチは以下から取得  
 https://github.com/seigot/aichallenge-tools/tree/main/aichallenge2023-sim-winter/patch  
 結果は以下に格納  
-https://github.com/seigot/aichallenge-result/aichallenge2023-sim-winter  
+https://github.com/seigot/aichallenge-result/tree/main/aichallenge2023-sim-winter  
 
 ```
 # パッチの当て方
