@@ -107,6 +107,7 @@ patch -p1 < 20230824_001_stop_drivable_area_false_left_boundoffset-0.17right-0.6
 ```
 
 #### planner(ex.[crank_drive_planner](https://github.com/bushio/crank_driving_planner))を追加する場合
+既存ファイルの変更のみだと通常の`diff`コマンドでパッチ出力可能だが、ファイル追加する場合はパッチへ出力するために`git add -N`が必要となる  
 
 ex.`crank_drive_planner`のパッチの当て方
 
