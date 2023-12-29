@@ -76,6 +76,13 @@ password ${YOUR_PASSWORD/YOUR_TOKEN}
 sudo apt install -y jq  # result.jsonからの値取得のために必要
 ```
 
+AWSIMは事前ダウンロードして`${HOME}`においておく
+今回はplannerを追加することが多いことを想定し、評価前に`aichallemge2023^racing`リポジトリを新しくcloneするスクリプトにしている
+
+```
+ks ${HONE}/AWSIM
+```
+
 コマンド
 
 ```
