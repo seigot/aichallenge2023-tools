@@ -14,6 +14,7 @@ if [ ! -d ${AICHALLENGE2023_DEV_REPOSITORY} ]; then
    return
 fi
 
+# autowareとawsimを実行
 function run_autoware_awsim(){
 
     # MAIN Process
@@ -79,6 +80,7 @@ function get_result(){
     bash stop.sh
 }
 
+# 事前準備
 function preparation(){
 
     # stop current process
@@ -94,6 +96,7 @@ function preparation(){
     fi
 }
 
+# main処理
 function do_game(){
     SLEEP_SEC=$1
     preparation
@@ -101,6 +104,7 @@ function do_game(){
     get_result ${SLEEP_SEC}
 }
 
+# 念のためパッチを保存する処理
 function save_patch(){
     _IS_SAVE_PATCH=$1
     if [ "${_IS_SAVE_PATCH}" == "false" ]; then
