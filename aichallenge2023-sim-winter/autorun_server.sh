@@ -91,7 +91,7 @@ function push_result(){
     fi
     pushd ${RESULT_REPOSITORY_PATH}/aichallenge2023-sim-winter
     git pull
-    BEST_TIME=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | cut -f2 | sort -n | head -1` #1番小さい値を取得(要調整)
+    BEST_TIME=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | cut -f4 | sort -n | head -1` #1番小さい値を取得(要調整)
     PUSH_RESULT_NAME="result_${TARGET_PATCH_NAME}_${BEST_TIME}.tsv"
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | head -1 > ${PUSH_RESULT_NAME}
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} >> ${PUSH_RESULT_NAME}
@@ -163,14 +163,23 @@ function update_patch(){
     popd
 
     # patch更新
+    ## repositoryを更新
+    pushd ${HOME}
+    rm -rf aichallenge2023-racing
+    git lfs clone https://github.com/AutomotiveAIChallenge/aichallenge2023-racing
+    docker pull ghcr.io/automotiveaichallenge/aichallenge2023-racing/autoware-universe-no-cuda
+    ## copy AWSIM
+    cp -r ${HOME}/AWSIM ${HOME}/aichallenge2023-racing/docker/aichallenge/.
+    popd
+
     ## 前の変更点を削除
     pushd ${AICHALLENGE2023_DEV_REPOSITORY}
-    git diff > tmp.patch
-    patch -p1 -R < tmp.patch
-    # crank planner削除
-    rm -rf ${HOME}/aichallenge2023-sim/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/crank_driving_planner
+#    git diff > tmp.patch
+#    patch -p1 -R < tmp.patch
+#    # crank planner削除
+#    rm -rf ${HOME}/aichallenge2023-racing/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/crank_driving_planner
     ## target patch反映
-    patch -p1 < ${AICHALLENGE2023_TOOLS_REPOSITORY_PATH}"/aichallenge2023-sim-racing/patch/${TARGET_PATCH_NAME}"
+    patch -p1 < ${AICHALLENGE2023_TOOLS_REPOSITORY_PATH}"/aichallenge2023-sim-winter/patch/${TARGET_PATCH_NAME}"
     popd
     return 0
 }
