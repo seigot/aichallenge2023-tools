@@ -163,7 +163,11 @@ function push_result(){
     fi
     pushd ${RESULT_REPOSITORY_PATH}/aichallenge2023-sim
     git pull
-    BEST_TIME=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | cut -f2 | sort -n | tail -2 | head -1` # 外れ値を除くために2番目の値を取得(要調整)
+    # BEST TIMEを取得（結果ファイル名に加えるため）
+    MAX_K3=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | sort -nr -k3 | head -1 | cut -f3`
+    BEST_TIME_LINE=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | awk -F\t '$3 ~ /'${MAX_K3}'/ {print $0}' | sort -n -k4 | head -1`
+    BEST_TIME=`echo ${BEST_TIME_LINE}" | cut -f3-4 | tr "\t" "_"`
+
     PUSH_RESULT_NAME="result_${TARGET_PATCH_NAME}_${BEST_TIME}.tsv"
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | head -1 > ${PUSH_RESULT_NAME}
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} >> ${PUSH_RESULT_NAME}
