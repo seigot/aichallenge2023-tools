@@ -93,8 +93,8 @@ function push_result(){
     git pull
     # BEST TIMEを取得（結果ファイル名に加えるため）
     MAX_K3=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | sort -nr -k3 | head -1 | cut -f3`
-    BEST_TIME_LINE=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | awk -F\t '$3 ~ /'${MAX_K3}'/ {print $0}' | sort -n -k4 | head -1`
-    BEST_TIME=`echo ${BEST_TIME_LINE}" | cut -f3-4 | tr "\t" "_"`
+    BEST_TIME_LINE=`cat ${CURRENT_DIRECTORY_PATH}/result.tsv | grep ${TARGET_PATCH_NAME} | sed -e 's/\t\+/ /g' | awk -F" " '$3 ~ /'${MAX_K3}'/ {print $0}' | sort -n -k4 | head -1`
+    BEST_TIME=`echo "${BEST_TIME_LINE}" | cut -d" " -f3-4 | tr " " "_"`
 
     PUSH_RESULT_NAME="result_${TARGET_PATCH_NAME}_${BEST_TIME}.tsv"
     cat ${CURRENT_DIRECTORY_PATH}/result.tsv | head -1 > ${PUSH_RESULT_NAME}
