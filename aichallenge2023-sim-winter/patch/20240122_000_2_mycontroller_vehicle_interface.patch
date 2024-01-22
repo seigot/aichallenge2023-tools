@@ -1,0 +1,612 @@
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/aichallenge_submit_launch/launch/autoware_micro_awsim.launch.xml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/aichallenge_submit_launch/launch/autoware_micro_awsim.launch.xml
+index 944f680..81666a8 100644
+--- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/aichallenge_submit_launch/launch/autoware_micro_awsim.launch.xml
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/aichallenge_submit_launch/launch/autoware_micro_awsim.launch.xml
+@@ -231,8 +231,8 @@
+ 
+   <node pkg="simple_pure_pursuit" exec="simple_pure_pursuit" name="simple_pure_pursuit_node" output="screen">
+     <param name="use_external_target_vel" value="false"/>
+-    <param name="external_target_vel" value="100.0"/>
+-    <param name="lookahead_gain" value="0.4"/>
++    <param name="external_target_vel" value="6.0"/>
++    <param name="lookahead_gain" value="0.25"/>
+     <param name="lookahead_min_distance" value="5.0"/>
+     <param name="speed_proportional_gain" value="1.0"/>
+     
+@@ -253,6 +253,20 @@
+     <arg name="convert_brake_cmd" value="true" />
+     <arg name="convert_steer_cmd" value="false" />
+   </include>
++  
++  
++  <!-- My package-->
++  
++  <node pkg="my_control" exec="sub_cmd" name="sub_cmd" output="screen">
++  	<remap from="input_dallara_cmd" to="/vehicle_inputs_to_my_package"/>
++        <remap from="input_pure_cmd" to="/control/command/control_cmd"/>
++        <remap from="input_velocity_cmd" to="/vehicle/status/velocity_status"/>
++        
++        <remap from="output_pure_cmd" to="/pure_cmd"/>
++        <remap from="output_dallara_cmd" to="/vehicle_inputs"/>
++        <remap from="output_velocity_cmd" to="/vehicle_velocity"/>
++  </node>
++      
+ 
+   <!-- API -->
+   <group>
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/LICENSE b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/LICENSE
+new file mode 100644
+index 0000000..d645695
+--- /dev/null
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/LICENSE
+@@ -0,0 +1,202 @@
++
++                                 Apache License
++                           Version 2.0, January 2004
++                        http://www.apache.org/licenses/
++
++   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
++
++   1. Definitions.
++
++      "License" shall mean the terms and conditions for use, reproduction,
++      and distribution as defined by Sections 1 through 9 of this document.
++
++      "Licensor" shall mean the copyright owner or entity authorized by
++      the copyright owner that is granting the License.
++
++      "Legal Entity" shall mean the union of the acting entity and all
++      other entities that control, are controlled by, or are under common
++      control with that entity. For the purposes of this definition,
++      "control" means (i) the power, direct or indirect, to cause the
++      direction or management of such entity, whether by contract or
++      otherwise, or (ii) ownership of fifty percent (50%) or more of the
++      outstanding shares, or (iii) beneficial ownership of such entity.
++
++      "You" (or "Your") shall mean an individual or Legal Entity
++      exercising permissions granted by this License.
++
++      "Source" form shall mean the preferred form for making modifications,
++      including but not limited to software source code, documentation
++      source, and configuration files.
++
++      "Object" form shall mean any form resulting from mechanical
++      transformation or translation of a Source form, including but
++      not limited to compiled object code, generated documentation,
++      and conversions to other media types.
++
++      "Work" shall mean the work of authorship, whether in Source or
++      Object form, made available under the License, as indicated by a
++      copyright notice that is included in or attached to the work
++      (an example is provided in the Appendix below).
++
++      "Derivative Works" shall mean any work, whether in Source or Object
++      form, that is based on (or derived from) the Work and for which the
++      editorial revisions, annotations, elaborations, or other modifications
++      represent, as a whole, an original work of authorship. For the purposes
++      of this License, Derivative Works shall not include works that remain
++      separable from, or merely link (or bind by name) to the interfaces of,
++      the Work and Derivative Works thereof.
++
++      "Contribution" shall mean any work of authorship, including
++      the original version of the Work and any modifications or additions
++      to that Work or Derivative Works thereof, that is intentionally
++      submitted to Licensor for inclusion in the Work by the copyright owner
++      or by an individual or Legal Entity authorized to submit on behalf of
++      the copyright owner. For the purposes of this definition, "submitted"
++      means any form of electronic, verbal, or written communication sent
++      to the Licensor or its representatives, including but not limited to
++      communication on electronic mailing lists, source code control systems,
++      and issue tracking systems that are managed by, or on behalf of, the
++      Licensor for the purpose of discussing and improving the Work, but
++      excluding communication that is conspicuously marked or otherwise
++      designated in writing by the copyright owner as "Not a Contribution."
++
++      "Contributor" shall mean Licensor and any individual or Legal Entity
++      on behalf of whom a Contribution has been received by Licensor and
++      subsequently incorporated within the Work.
++
++   2. Grant of Copyright License. Subject to the terms and conditions of
++      this License, each Contributor hereby grants to You a perpetual,
++      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++      copyright license to reproduce, prepare Derivative Works of,
++      publicly display, publicly perform, sublicense, and distribute the
++      Work and such Derivative Works in Source or Object form.
++
++   3. Grant of Patent License. Subject to the terms and conditions of
++      this License, each Contributor hereby grants to You a perpetual,
++      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++      (except as stated in this section) patent license to make, have made,
++      use, offer to sell, sell, import, and otherwise transfer the Work,
++      where such license applies only to those patent claims licensable
++      by such Contributor that are necessarily infringed by their
++      Contribution(s) alone or by combination of their Contribution(s)
++      with the Work to which such Contribution(s) was submitted. If You
++      institute patent litigation against any entity (including a
++      cross-claim or counterclaim in a lawsuit) alleging that the Work
++      or a Contribution incorporated within the Work constitutes direct
++      or contributory patent infringement, then any patent licenses
++      granted to You under this License for that Work shall terminate
++      as of the date such litigation is filed.
++
++   4. Redistribution. You may reproduce and distribute copies of the
++      Work or Derivative Works thereof in any medium, with or without
++      modifications, and in Source or Object form, provided that You
++      meet the following conditions:
++
++      (a) You must give any other recipients of the Work or
++          Derivative Works a copy of this License; and
++
++      (b) You must cause any modified files to carry prominent notices
++          stating that You changed the files; and
++
++      (c) You must retain, in the Source form of any Derivative Works
++          that You distribute, all copyright, patent, trademark, and
++          attribution notices from the Source form of the Work,
++          excluding those notices that do not pertain to any part of
++          the Derivative Works; and
++
++      (d) If the Work includes a "NOTICE" text file as part of its
++          distribution, then any Derivative Works that You distribute must
++          include a readable copy of the attribution notices contained
++          within such NOTICE file, excluding those notices that do not
++          pertain to any part of the Derivative Works, in at least one
++          of the following places: within a NOTICE text file distributed
++          as part of the Derivative Works; within the Source form or
++          documentation, if provided along with the Derivative Works; or,
++          within a display generated by the Derivative Works, if and
++          wherever such third-party notices normally appear. The contents
++          of the NOTICE file are for informational purposes only and
++          do not modify the License. You may add Your own attribution
++          notices within Derivative Works that You distribute, alongside
++          or as an addendum to the NOTICE text from the Work, provided
++          that such additional attribution notices cannot be construed
++          as modifying the License.
++
++      You may add Your own copyright statement to Your modifications and
++      may provide additional or different license terms and conditions
++      for use, reproduction, or distribution of Your modifications, or
++      for any such Derivative Works as a whole, provided Your use,
++      reproduction, and distribution of the Work otherwise complies with
++      the conditions stated in this License.
++
++   5. Submission of Contributions. Unless You explicitly state otherwise,
++      any Contribution intentionally submitted for inclusion in the Work
++      by You to the Licensor shall be under the terms and conditions of
++      this License, without any additional terms or conditions.
++      Notwithstanding the above, nothing herein shall supersede or modify
++      the terms of any separate license agreement you may have executed
++      with Licensor regarding such Contributions.
++
++   6. Trademarks. This License does not grant permission to use the trade
++      names, trademarks, service marks, or product names of the Licensor,
++      except as required for reasonable and customary use in describing the
++      origin of the Work and reproducing the content of the NOTICE file.
++
++   7. Disclaimer of Warranty. Unless required by applicable law or
++      agreed to in writing, Licensor provides the Work (and each
++      Contributor provides its Contributions) on an "AS IS" BASIS,
++      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
++      implied, including, without limitation, any warranties or conditions
++      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
++      PARTICULAR PURPOSE. You are solely responsible for determining the
++      appropriateness of using or redistributing the Work and assume any
++      risks associated with Your exercise of permissions under this License.
++
++   8. Limitation of Liability. In no event and under no legal theory,
++      whether in tort (including negligence), contract, or otherwise,
++      unless required by applicable law (such as deliberate and grossly
++      negligent acts) or agreed to in writing, shall any Contributor be
++      liable to You for damages, including any direct, indirect, special,
++      incidental, or consequential damages of any character arising as a
++      result of this License or out of the use or inability to use the
++      Work (including but not limited to damages for loss of goodwill,
++      work stoppage, computer failure or malfunction, or any and all
++      other commercial damages or losses), even if such Contributor
++      has been advised of the possibility of such damages.
++
++   9. Accepting Warranty or Additional Liability. While redistributing
++      the Work or Derivative Works thereof, You may choose to offer,
++      and charge a fee for, acceptance of support, warranty, indemnity,
++      or other liability obligations and/or rights consistent with this
++      License. However, in accepting such obligations, You may act only
++      on Your own behalf and on Your sole responsibility, not on behalf
++      of any other Contributor, and only if You agree to indemnify,
++      defend, and hold each Contributor harmless for any liability
++      incurred by, or claims asserted against, such Contributor by reason
++      of your accepting any such warranty or additional liability.
++
++   END OF TERMS AND CONDITIONS
++
++   APPENDIX: How to apply the Apache License to your work.
++
++      To apply the Apache License to your work, attach the following
++      boilerplate notice, with the fields enclosed by brackets "[]"
++      replaced with your own identifying information. (Don't include
++      the brackets!)  The text should be enclosed in the appropriate
++      comment syntax for the file format. We also recommend that a
++      file or class name and description of purpose be included on the
++      same "printed page" as the copyright notice for easier
++      identification within third-party archives.
++
++   Copyright [yyyy] [name of copyright owner]
++
++   Licensed under the Apache License, Version 2.0 (the "License");
++   you may not use this file except in compliance with the License.
++   You may obtain a copy of the License at
++
++       http://www.apache.org/licenses/LICENSE-2.0
++
++   Unless required by applicable law or agreed to in writing, software
++   distributed under the License is distributed on an "AS IS" BASIS,
++   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++   See the License for the specific language governing permissions and
++   limitations under the License.
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/__init__.py b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/__pycache__/__init__.cpython-310.pyc b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/__pycache__/__init__.cpython-310.pyc
+new file mode 100644
+index 0000000..b321c12
+Binary files /dev/null and b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/__pycache__/control.cpython-310.pyc b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/__pycache__/control.cpython-310.pyc
+new file mode 100644
+index 0000000..9a2e40a
+Binary files /dev/null and b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/__pycache__/control.cpython-310.pyc differ
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/control.py b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/control.py
+new file mode 100644
+index 0000000..3f677c4
+--- /dev/null
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/my_control/control.py
+@@ -0,0 +1,162 @@
++import rclpy
++from rclpy.node import Node
++from autoware_auto_control_msgs.msg import AckermannControlCommand
++from autonoma_msgs.msg import VehicleInputs
++from autoware_auto_vehicle_msgs.msg import VelocityReport
++
++import numpy as np
++
++def modified_throttle_function_with_target(velocity, target_velocity):
++    """
++    Modified throttle function considering the target velocity.
++    Args:
++    - velocity (float): The current velocity in m/s.
++    - target_velocity (float): The target velocity in m/s.
++
++    Returns:
++    - throttle (float): The throttle value (0 to 100).
++    """
++    velocity_difference = target_velocity - velocity
++    if velocity_difference > 0:
++        # Accelerate more if the difference is larger
++        throttle = min(100, velocity_difference * 10 + 2)
++    else:
++        # No acceleration if current velocity is at or above target
++        throttle = 0
++
++    return float(throttle)
++
++def modified_brake_function_with_target(velocity, target_velocity):
++    """
++    Modified brake function considering the target velocity.
++    Args:
++    - velocity (float): The current velocity in m/s.
++    - target_velocity (float): The target velocity in m/s.
++
++    Returns:
++    - brake (float): The brake force (0 to 100).
++    """
++    velocity_difference = velocity - target_velocity
++    if velocity_difference > 0:
++        # Brake more if the difference is larger
++        brake = min(30, velocity_difference * 2.0)
++    else:
++        # No braking if current velocity is at or below target
++        brake = 0.0
++
++    return float(brake*100)
++
++
++def shift_down(speed, speed_map, current_gear):
++    return current_gear    
++
++
++def shift_up(speed,gear,speed_map):
++    return gear
++
++    
++def gear_change(speed,current_velocity,accel,brake,gear):
++    #
++    speed_map = [0.0, 50.0, 100.0, 150, 200, 250, 300] 
++    calculated_gear = 0
++    current_gear = gear
++    if current_velocity > speed:
++        calculated_gear = shift_down(speed,speed_map,current_gear)
++        
++        
++    elif current_velocity < speed: 
++        calculated_gear = shift_up(speed,gear,speed_map)
++
++    calculated_gear = current_gear
++    
++    return  calculated_gear
++
++
++
++class Controller(Node):
++    def __init__(self):
++        super().__init__('py_path_create_node')
++
++        self.gear = 0
++        self.speed = 0.0
++        self.accel = 0.0
++        self.brake = 0.0
++        self.current_velocity = 0.0
++
++
++        self.sub_pure_cmd = self.create_subscription(
++            AckermannControlCommand,
++            'input_pure_cmd',
++            self.pure_cmd_callback,
++            1)
++        
++        self.sub_dallara_cmd = self.create_subscription(
++            VehicleInputs,
++            'input_dallara_cmd',
++            self.dallara_cmd_callback,
++            1)
++        
++        self.sub_velocity_cmd = self.create_subscription(
++            VelocityReport,
++            'input_velocity_cmd',
++            self.velocity_cmd_callback,
++            1)
++        
++        
++    
++        self.pub_pure_cmd = self.create_publisher(
++            AckermannControlCommand,
++            'output_pure_cmd',
++            1)
++        
++        self.pub_dallara_cmd = self.create_publisher(
++            VehicleInputs,
++            'output_dallara_cmd',
++            1)
++        
++        self.pub_velocity_cmd = self.create_publisher(
++            VelocityReport,
++            'output_velocity_cmd',
++            1)
++
++    def pure_cmd_callback(self, msg):
++        self.speed = msg.longitudinal.speed
++        
++        self.pub_pure_cmd.publish(msg)
++
++    def dallara_cmd_callback(self, msg):
++        dallara_msg = msg
++        self.gear = dallara_msg.gear_cmd
++        self.accel = dallara_msg.throttle_cmd
++        self.brake = dallara_msg.brake_cmd
++
++        self.gear = gear_change(self.speed,self.current_velocity, self.accel,self.brake,self.gear)
++        
++        # if self.current_velocity > self.speed:
++        #     self.brake = brake_function(self.current_velocity)
++        #     print(self.brake)
++        # elif self.current_velocity < self.speed:
++        #     self.accel = throttle_function(self.current_velocity)
++           
++        self.accel = modified_throttle_function_with_target(self.current_velocity,self.speed)
++        self.brake = modified_brake_function_with_target(self.current_velocity,self.speed)
++        dallara_msg.gear_cmd = self.gear
++        dallara_msg.throttle_cmd = self.accel
++        dallara_msg.brake_cmd = self.brake
++        
++        # print(dallara_msg)
++        self.pub_dallara_cmd.publish(dallara_msg)
++
++    def velocity_cmd_callback(self, msg):
++        self.current_velocity = msg.longitudinal_velocity
++        
++        self.pub_velocity_cmd.publish(msg)
++
++def main(args=None):
++    rclpy.init(args=args)
++    node = Controller()
++    rclpy.spin(node)
++    rclpy.shutdown()
++
++if __name__ == '__main__':
++    main()
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/package.xml b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/package.xml
+new file mode 100644
+index 0000000..506b2eb
+--- /dev/null
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/package.xml
+@@ -0,0 +1,24 @@
++<?xml version="1.0"?>
++<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
++<package format="3">
++  <name>my_control</name>
++  <version>0.0.0</version>
++  <description>TODO: Package description</description>
++  <maintainer email="ky.37f.9850@s.thers.ac.jp">arata-22</maintainer>
++  <license>Apache-2.0</license>
++
++  <test_depend>ament_copyright</test_depend>
++  <test_depend>ament_flake8</test_depend>
++  <test_depend>ament_pep257</test_depend>
++  <test_depend>python3-pytest</test_depend>
++
++
++  <depend>rclpy</depend> <!-- rclcppからrclpyへ変更 -->
++  <depend>autoware_auto_control_msgs</depend>
++  <depend>autonoma_msgs</depend>
++  <depend>autoware_auto_vehicle_msgs</depend>
++  
++  <export>
++    <build_type>ament_python</build_type>
++  </export>
++</package>
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/resource/my_control b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/resource/my_control
+new file mode 100644
+index 0000000..e69de29
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/setup.cfg b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/setup.cfg
+new file mode 100644
+index 0000000..d1c5ca5
+--- /dev/null
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/setup.cfg
+@@ -0,0 +1,4 @@
++[develop]
++script_dir=$base/lib/my_control
++[install]
++install_scripts=$base/lib/my_control
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/setup.py b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/setup.py
+new file mode 100644
+index 0000000..2965deb
+--- /dev/null
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/setup.py
+@@ -0,0 +1,26 @@
++from setuptools import find_packages, setup
++
++package_name = 'my_control'
++
++setup(
++    name=package_name,
++    version='0.0.0',
++    packages=find_packages(exclude=['test']),
++    data_files=[
++        ('share/ament_index/resource_index/packages',
++            ['resource/' + package_name]),
++        ('share/' + package_name, ['package.xml']),
++    ],
++    install_requires=['setuptools'],
++    zip_safe=True,
++    maintainer='arata-22',
++    maintainer_email='ky.37f.9850@s.thers.ac.jp',
++    description='TODO: Package description',
++    license='Apache-2.0',
++    tests_require=['pytest'],
++    entry_points={
++        'console_scripts': [
++            'sub_cmd = my_control.control:main',
++        ],
++    },
++)
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_copyright.py b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_copyright.py
+new file mode 100644
+index 0000000..97a3919
+--- /dev/null
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_copyright.py
+@@ -0,0 +1,25 @@
++# Copyright 2015 Open Source Robotics Foundation, Inc.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++
++from ament_copyright.main import main
++import pytest
++
++
++# Remove the `skip` decorator once the source file(s) have a copyright header
++@pytest.mark.skip(reason='No copyright header has been placed in the generated source file.')
++@pytest.mark.copyright
++@pytest.mark.linter
++def test_copyright():
++    rc = main(argv=['.', 'test'])
++    assert rc == 0, 'Found errors'
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_flake8.py b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_flake8.py
+new file mode 100644
+index 0000000..27ee107
+--- /dev/null
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_flake8.py
+@@ -0,0 +1,25 @@
++# Copyright 2017 Open Source Robotics Foundation, Inc.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++
++from ament_flake8.main import main_with_errors
++import pytest
++
++
++@pytest.mark.flake8
++@pytest.mark.linter
++def test_flake8():
++    rc, errors = main_with_errors(argv=[])
++    assert rc == 0, \
++        'Found %d code style errors / warnings:\n' % len(errors) + \
++        '\n'.join(errors)
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_pep257.py b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_pep257.py
+new file mode 100644
+index 0000000..b234a38
+--- /dev/null
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/autoware_micro/my_control/test/test_pep257.py
+@@ -0,0 +1,23 @@
++# Copyright 2015 Open Source Robotics Foundation, Inc.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++
++from ament_pep257.main import main
++import pytest
++
++
++@pytest.mark.linter
++@pytest.mark.pep257
++def test_pep257():
++    rc = main(argv=['.', 'test'])
++    assert rc == 0, 'Found code style errors / warnings'
+diff --git a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/dallara_interface/dallara_interface/src/dallara_interface.cpp b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/dallara_interface/dallara_interface/src/dallara_interface.cpp
+index 6eece6f..b5436d9 100644
+--- a/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/dallara_interface/dallara_interface/src/dallara_interface.cpp
++++ b/docker/aichallenge/aichallenge_ws/src/aichallenge_submit/dallara_interface/dallara_interface/src/dallara_interface.cpp
+@@ -26,7 +26,8 @@ namespace dallara_interface {
+   DallaraInterface::DallaraInterface() : Node("dallara_interface_node") {
+     // Publishers
+ 
+-    vehicle_inputs_pub_ = this->create_publisher<VehicleInputs>("/vehicle_inputs", 1);
++    vehicle_inputs_pub_ = this->create_publisher<VehicleInputs>("/vehicle_inputs_to_my_package", 1);
++    // vehicle_inputs_pub_ = this->create_publisher<VehicleInputs>("/vehicle_inputs", 1);
+ 
+     velocity_report_pub_ = this->create_publisher<VelocityReport>("/vehicle/status/velocity_status", 1);
+     steering_report_pub_ = this->create_publisher<SteeringReport>("/vehicle/status/steering_status", 1);
+@@ -67,7 +68,7 @@ namespace dallara_interface {
+     vehicle_inputs_msg.brake_cmd = msg->actuation.brake_cmd * 1000; // to Pascal
+     vehicle_inputs_msg.steering_cmd = msg->actuation.steer_cmd * 180.0 / M_PI * 19.5;
+     const double speed_kmph = current_speed_ * 3.6;
+-    const double gear_thresholds[] = { -1.0, 30.0, 60.0, 90.0, 120.0, 150.0 };
++    const double gear_thresholds[] = { -1.0, 50.0, 100.0, 150.0, 200.0, 250.0 };
+     const int num_gears = sizeof(gear_thresholds) / sizeof(gear_thresholds[0]);
+     int gear_cmd_dallara_ = 1;
+     for (int i = 1; i < num_gears; ++i) {
