@@ -229,3 +229,6 @@ do
     do_game ${SLEEP_SEC}
 done
 push_result
+
+docker image prune -f
+docker builder prune -f
