@@ -149,3 +149,7 @@ do
     echo "----- LOOP: ${i} -----"
     do_game ${SLEEP_SEC}
 done
+
+docker image prune -f
+docker builder prune -f
+
